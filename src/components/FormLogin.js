@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import * as Components from './Components';
+import axios from 'axios';
 
 function FormLogin() {
   const [signIn, setSignIn] = useState(true);
@@ -12,7 +13,7 @@ function FormLogin() {
     setError('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Perform password validation or make server request here
@@ -21,7 +22,21 @@ function FormLogin() {
       return;
     }
 
-    // Make server request here using email and password
+    try {
+      // Make server request here using email and password
+      const response = await axios.post('/api/login', {
+        email,
+        password,
+      });
+
+      // Handle the response
+      console.log(response.data);
+      // ... Perform appropriate actions based on the response
+    } catch (error) {
+      // Handle error
+      console.log(error.response.data);
+      setError('Invalid email or password');
+    }
 
     // Reset form fields
     setEmail('');
@@ -35,22 +50,22 @@ function FormLogin() {
         <Components.Form onSubmit={handleSubmit}>
           <Components.Title>Create Account</Components.Title>
           <Components.Input
-            type='text'
-            placeholder='Name'
+            type="text"
+            placeholder="Name"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <Components.Input
-            type='email'
-            placeholder='Email'
+            type="email"
+            placeholder="Email"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <Components.Input
-            type='password'
-            placeholder='Password'
+            type="password"
+            placeholder="Password"
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -63,20 +78,20 @@ function FormLogin() {
         <Components.Form onSubmit={handleSubmit}>
           <Components.Title>Sign in</Components.Title>
           <Components.Input
-            type='email'
-            placeholder='Email'
+            type="email"
+            placeholder="Email"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <Components.Input
-            type='password'
-            placeholder='Password'
+            type="password"
+            placeholder="Password"
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Components.Anchor href='#'>Forgot your password?</Components.Anchor>
+          <Components.Anchor href="#">Forgot your password?</Components.Anchor>
           <Components.Button>Sigin In</Components.Button>
         </Components.Form>
       </Components.SignInContainer>
@@ -109,3 +124,4 @@ function FormLogin() {
 }
 
 export default FormLogin;
+
