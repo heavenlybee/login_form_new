@@ -22,13 +22,25 @@ function FormLogin() {
       return;
     }
 
-    try {
+    /*try {
       // Make server request here using email and password
       const response = await axios.post('/api/login', {
         email,
         password,
-      });
-
+      });*/
+    
+    try {
+      const response = await axios.post('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      })
+      
       // Handle the response
       console.log(response.data);
       // ... Perform appropriate actions based on the response
